@@ -5,8 +5,8 @@
  * @format
  */
 
-import React from 'react';
-import type { PropsWithChildren } from 'react';
+import React, { useEffect } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -16,10 +16,12 @@ import {
   useColorScheme,
   View,
   Button,
+  FlatList,
+  SectionList,
+  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 
-import UserData from './components/UserData';
-import CompanyData from './components/CompanyData';
 import {
   Colors,
   DebugInstructions,
@@ -32,39 +34,99 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-// const name = "Ayush";
-// var email = "Ayush123@gmail.com"
-// let age = 17;
-// function University() {
-//   return "Marwadi University";  
-// }
-
-
-const test1 = (val: string) => {
-  console.warn(val);
-}
-const test2 = () => {
-  console.warn("Function Called");
-}
-
-let data = 30;
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
+  const [selectedRadio,setSelectedRadio]=useState(1);
+  const skills = [
+    {
+      id: 1,
+      name:"ABC",
+    },
+    {
+      id: 2,
+      name: "DEF",
+    },
+    {
+      id: 3,
+      name: "IJK"
+    },
+    {
+      id: 4,
+      name: "LMN"
+    },
+    {
+      id: 5,
+      name: "OPQ"
+    },
+  ]
+
   return (
-    <View>
-      <Text style={{ fontSize: 40, fontWeight: "600", color: "purple" }}>Hello,Ayush Vora</Text>
-      {/* <Text style={{ fontSize: 50, fontWeight: "600", color: "purple" }}>Hello,{name} Vora</Text> */}
-      {/* <Text style={{ fontSize: 30, fontWeight: "600", color: "blue" }}>{University()}</Text> */}
-      {/* <Text style={{ fontSize: 30, fontWeight: "600", color: "blue" }}>{100 - 90}</Text> */}
-      {/* <Text style={{ fontSize: 30, fontWeight: "600", color: "blue" }}>{age===18?"Above 18":"Below 18"}</Text> */}
-      <UserData />
-      <CompanyData />
-      <Button title='Press Here' color={'green'} onPress={() => test1("Hello, Ayush Vora")}></Button>
-      <Button title='Press Here' color={'orange'} onPress={test2}></Button>
+    <View style={Styles.main}>
+      <Text
+        style={{ fontSize: 27, fontWeight: 'bold', textAlign: 'center', backgroundColor: 'yellow', color: 'black', marginBottom: 20 }}>
+        Radio Button</Text>
+      {
+        skills.map((item,index)=><TouchableOpacity key={index} onPress={()=>setSelectedRadio(item.id)}>
+        <View style={Styles.RadioWrapper}>
+          <View style={Styles.Radio}>
+            {
+              selectedRadio==item.id ? <View style = {Styles.RadioBG}></View> : null
+            }
+          </View>
+          <Text style={Styles.RadioText}>{item.name}</Text>
+        </View>
+      </TouchableOpacity>)
+      }
     </View>
   );
 }
+
+const Styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+  RadioText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'black',
+    margin: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  Radio:{
+    height: 40,
+    width: 40,
+    borderColor: 'black',
+    borderWidth: 2,
+    borderRadius: 20,
+    margin: 10,
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center',
+  },
+  RadioWrapper:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    
+  },
+  RadioBG:{
+    height: 28,
+    width: 28,
+    backgroundColor: 'black',
+    borderRadius: 15,
+    margin: 4,
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center',
+  }
+}
+)
 
 export default App;
