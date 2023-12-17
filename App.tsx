@@ -47,7 +47,7 @@ function App(): JSX.Element {
       <Modal transparent={true} visible={showModal} animationType='slide'>
         <View style={Styles.centeredView}>
           <View style={Styles.modalView}>
-            <Text style={Styles.modalText}>Hello, I am Ayush</Text>
+            <Text style={Styles.modalText}>Hello, I am Ayush Vora</Text>
             <Button title='Close' onPress={()=>setShowModal(false)}/>
           </View>
         </View>
