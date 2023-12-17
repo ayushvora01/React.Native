@@ -22,6 +22,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Pressable,
 } from 'react-native';
 
 import {
@@ -40,20 +41,17 @@ type SectionProps = PropsWithChildren<{
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const[showModal,setShowModal]=useState(false);
 
   return (
     <View style={Styles.main}>
-      <Modal transparent={true} visible={showModal} animationType='slide'>
-        <View style={Styles.centeredView}>
-          <View style={Styles.modalView}>
-            <Text style={Styles.modalText}>Hello, I am Ayush</Text>
-            <Button title='Close' onPress={()=>setShowModal(false)}/>
-          </View>
-        </View>
-      </Modal>
-      <View style={Styles.buttonView}>
-        <Button title='Open' onPress={()=>setShowModal(true)}/></View>
+      <Pressable onPress={()=>console.warn("Normal on press")} 
+      onLongPress={()=>console.warn("Long on Press")}
+      onPressIn={()=>console.warn("On press In")}
+      onPressOut={()=>console.warn("On press Out")}
+      delayLongPress={3000}
+      >
+        <Text style={Styles.pressableBtn}>Pressable</Text>
+        </Pressable>
     </View>
   );
 }
@@ -61,28 +59,19 @@ function App(): JSX.Element {
 const Styles = StyleSheet.create({
   main: {
     flex: 1,
+    justifyContent: 'center'
   },
-  buttonView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    backgroundColor: 'black',
-    padding: 30,
-    borderRadius: 20,
-    shadowColor: 'black',
-    elevation: 5,
-  },
-  modalText: {
+  pressableBtn:{
+    backgroundColor: 'yellow',
+    color: 'black',
+    padding: 10,
+    margin: 10,
     fontSize: 30,
-    fontWeight: '400',
-    color: 'white',
-    marginBottom: 20,
+    borderRadius: 10,
+    fontWeight: '600',
+    textAlign: 'center',
+    shadowColor: 'black',
+    elevation: 5
   }
 })
 
