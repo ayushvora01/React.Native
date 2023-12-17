@@ -22,6 +22,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Pressable,
 } from 'react-native';
 
 import {
@@ -40,50 +41,24 @@ type SectionProps = PropsWithChildren<{
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const[showModal,setShowModal]=useState(false);
+  const [hide,setHide]=useState(false);
+  const [barStyle,setBarStyle]=useState("default");
 
   return (
-    <View style={Styles.main}>
-      <Modal transparent={true} visible={showModal} animationType='slide'>
-        <View style={Styles.centeredView}>
-          <View style={Styles.modalView}>
-            <Text style={Styles.modalText}>Hello, I am Ayush</Text>
-            <Button title='Close' onPress={()=>setShowModal(false)}/>
-          </View>
-        </View>
-      </Modal>
-      <View style={Styles.buttonView}>
-        <Button title='Open' onPress={()=>setShowModal(true)}/></View>
+    <View style={Styles.container}>
+      <StatusBar backgroundColor={'red'} barStyle={barStyle} hidden={hide}></StatusBar>
+      <Button title='Toggle Status Bar' onPress={()=>setHide(!hide)}/>
+      <Button title='Update Style' onPress={()=>setBarStyle("dark-content")}/>
     </View>
   );
 }
 
 const Styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  buttonView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  centeredView: {
+  container:{
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    backgroundColor: 'black',
-    padding: 30,
-    borderRadius: 20,
-    shadowColor: 'black',
-    elevation: 5,
-  },
-  modalText: {
-    fontSize: 30,
-    fontWeight: '400',
-    color: 'white',
-    marginBottom: 20,
   }
+  
 })
 
 export default App;
