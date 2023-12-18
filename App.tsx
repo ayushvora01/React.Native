@@ -22,6 +22,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Pressable,
+  Platform,
 } from 'react-native';
 
 import {
@@ -40,49 +42,32 @@ type SectionProps = PropsWithChildren<{
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const[showModal,setShowModal]=useState(false);
+  const [hide, setHide] = useState(false);
+  const [barStyle, setBarStyle] = useState("default");
 
   return (
-    <View style={Styles.main}>
-      <Modal transparent={true} visible={showModal} animationType='slide'>
-        <View style={Styles.centeredView}>
-          <View style={Styles.modalView}>
-            <Text style={Styles.modalText}>Hello, I am Ayush</Text>
-            <Button title='Close' onPress={()=>setShowModal(false)}/>
-          </View>
-        </View>
-      </Modal>
-      <View style={Styles.buttonView}>
-        <Button title='Open' onPress={()=>setShowModal(true)}/></View>
+    <View style={Styles.container}>
+      <Text style={{ fontSize: 30 }}>Platform : {Platform.OS}</Text>
+      {
+        Platform.OS == 'android' ?
+          <View style={{ backgroundColor: 'green', height: 100, width: 100 }}></View>
+          :
+          <View style={{ backgroundColor: 'red', height: 100, width: 100 }}></View>
+      }
+      <Text style={Styles.text}>Hello My name is Ayush.</Text>
     </View>
   );
 }
 
 const Styles = StyleSheet.create({
-  main: {
+  container: {
     flex: 1,
   },
-  buttonView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    backgroundColor: 'black',
-    padding: 30,
-    borderRadius: 20,
-    shadowColor: 'black',
-    elevation: 5,
-  },
-  modalText: {
-    fontSize: 30,
-    fontWeight: '400',
-    color: 'white',
-    marginBottom: 20,
+  text:{
+    color:Platform.OS=='android' ? 'black' : 'white',
+    backgroundColor:Platform.OS=='android' ? 'yellow' : 'blue',
+    fontWeight: 'bold',
+    fontSize: 30
   }
 })
 
