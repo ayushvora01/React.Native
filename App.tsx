@@ -22,7 +22,11 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Pressable,
+  Platform,
 } from 'react-native';
+
+import WebView, { } from 'react-native-webview';
 
 import {
   Colors,
@@ -40,50 +44,44 @@ type SectionProps = PropsWithChildren<{
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const[showModal,setShowModal]=useState(false);
+  const[show,setShow]=useState(false);
 
   return (
-    <View style={Styles.main}>
-      <Modal transparent={true} visible={showModal} animationType='slide'>
-        <View style={Styles.centeredView}>
-          <View style={Styles.modalView}>
-            <Text style={Styles.modalText}>Hello, I am Ayush</Text>
-            <Button title='Close' onPress={()=>setShowModal(false)}/>
-          </View>
+    <View style={styles.container}>
+      {
+      show ?
+      <View style={styles.Modal}>
+        <View style={styles.body}>
+          <Text>Hello Guys</Text>
+          <Button title='Close' onPress={()=>setShow(false)}/>
         </View>
-      </Modal>
-      <View style={Styles.buttonView}>
-        <Button title='Open' onPress={()=>setShowModal(true)}/></View>
+      </View>
+      : null
+    }
+      <Button title='Open Dialog' onPress={()=>setShow(true)}/>
     </View>
+
   );
 }
 
-const Styles = StyleSheet.create({
-  main: {
+const styles = StyleSheet.create({
+  container: {
     flex: 1,
+    justifyContent: 'flex-end'
   },
-  buttonView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  centeredView: {
-    flex: 1,
+  Modal:{
+    flex:1,
+    backgroundColor:'rgba(50,50,50,.5)',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
-  modalView: {
-    backgroundColor: 'black',
-    padding: 30,
-    borderRadius: 20,
-    shadowColor: 'black',
-    elevation: 5,
-  },
-  modalText: {
-    fontSize: 30,
-    fontWeight: '400',
-    color: 'white',
-    marginBottom: 20,
-  }
+  body:{
+    backgroundColor:'white',
+    height: 300,
+    width: 300,
+    padding: 20,
+    justifyContent: 'flex-end',
+    borderRadius: 10,
+   }
 })
-
 export default App;
