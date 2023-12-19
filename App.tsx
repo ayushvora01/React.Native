@@ -22,7 +22,11 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Pressable,
+  Platform,
 } from 'react-native';
+
+import WebView, {} from 'react-native-webview';
 
 import {
   Colors,
@@ -40,50 +44,11 @@ type SectionProps = PropsWithChildren<{
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const[showModal,setShowModal]=useState(false);
+  const [hide, setHide] = useState(false);
+  const [barStyle, setBarStyle] = useState("default");
 
   return (
-    <View style={Styles.main}>
-      <Modal transparent={true} visible={showModal} animationType='slide'>
-        <View style={Styles.centeredView}>
-          <View style={Styles.modalView}>
-            <Text style={Styles.modalText}>Hello, I am Ayush</Text>
-            <Button title='Close' onPress={()=>setShowModal(false)}/>
-          </View>
-        </View>
-      </Modal>
-      <View style={Styles.buttonView}>
-        <Button title='Open' onPress={()=>setShowModal(true)}/></View>
-    </View>
+    <WebView source={{uri:"https://sa1.dev/contact"}}></WebView>
   );
 }
-
-const Styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  buttonView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    backgroundColor: 'black',
-    padding: 30,
-    borderRadius: 20,
-    shadowColor: 'black',
-    elevation: 5,
-  },
-  modalText: {
-    fontSize: 30,
-    fontWeight: '400',
-    color: 'white',
-    marginBottom: 20,
-  }
-})
-
 export default App;
