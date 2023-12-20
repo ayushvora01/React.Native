@@ -22,7 +22,13 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Pressable,
+  Platform,
 } from 'react-native';
+
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import WebView, { } from 'react-native-webview';
 
 import {
   Colors,
@@ -36,54 +42,62 @@ type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
+const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const[showModal,setShowModal]=useState(false);
-
+ 
   return (
-    <View style={Styles.main}>
-      <Modal transparent={true} visible={showModal} animationType='slide'>
-        <View style={Styles.centeredView}>
-          <View style={Styles.modalView}>
-            <Text style={Styles.modalText}>Hello, I am Ayush</Text>
-            <Button title='Close' onPress={()=>setShowModal(false)}/>
-          </View>
-        </View>
-      </Modal>
-      <View style={Styles.buttonView}>
-        <Button title='Open' onPress={()=>setShowModal(true)}/></View>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{
+          headerStyle:{
+            backgroundColor:'yellow',
+          },
+          headerTitleStyle:{
+            fontSize:30,
+            color:'black'
+          }
+          }}>
+        <Stack.Screen name='Login' component={Login} 
+          options={{
+            title:'Login Screen',
+            headerTitleAlign:'center',
+          headerStyle:{
+            backgroundColor:'black',
+          },
+          headerTitleStyle:{
+            fontSize:30,
+            color:'white'
+          }
+          }}/>
+        <Stack.Screen name='Home' component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const Styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  buttonView: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    backgroundColor: 'black',
-    padding: 30,
-    borderRadius: 20,
-    shadowColor: 'black',
-    elevation: 5,
-  },
-  modalText: {
-    fontSize: 30,
-    fontWeight: '400',
-    color: 'white',
-    marginBottom: 20,
-  }
-})
+type HomeProps={
+  navigation: any;
+}
+const Home =(props: HomeProps)=>{
+  return(
+    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+      <Text style={{fontSize:30, color:'black'}}>Home Screen</Text>
+    </View>
+  )
+}
 
+type LoginProps = {
+  navigation: any; // Replace 'any' with the appropriate type for the 'Navigation' prop
+};
+
+const Login = (props: LoginProps) => {
+  return(
+    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+      <Text style={{fontSize:30, color:'black'}}>Login Screen</Text>
+      <Button title='Go to Home Page' onPress={()=>props.navigation.navigate("Home")} color={'red'}/>
+    </View>
+  )
+}
 export default App;
