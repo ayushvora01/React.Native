@@ -90,4 +90,5 @@ const Headers =()=>{
     <TextInput placeholder='Name' style={{color:'white',backgroundColor:'blue'}}/>
   )
 }
+
 export default App;
