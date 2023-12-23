@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, { useEffect } from 'react';
 import { PropsWithChildren, useState } from 'react';
 import {
@@ -27,10 +20,6 @@ import {
   TextInput,
 } from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import WebView, { } from 'react-native-webview';
-
 import {
   Colors,
   DebugInstructions,
@@ -38,56 +27,45 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import {Login} from'./components/Login';
-import {Home} from './components/Home';
+import { NavigationContainer } from '@react-navigation/native'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 
 type SectionProps = PropsWithChildren<{
   title: string;
-}>;
+}>
 
-const Stack = createNativeStackNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
-  const btnAction = () =>{
-    console.warn("Button pressed")
-  }
- 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-          headerStyle:{
-            backgroundColor:'yellow',
-          },
-          headerTitleStyle:{
-            fontSize:30,
-            color:'black'
-          }
-          }}>
-        <Stack.Screen name='Login' component={Login}
-          options={{
-            headerTitle:()=><Button title='Left' onPress={btnAction}/>,
-            headerRight:()=><Headers/>,
-            title:'Login Screen',
-            // headerTitleAlign:'center',
-          headerStyle:{
-            backgroundColor:'black',
-          },
-          headerTitleStyle:{
-            fontSize:30,
-            color:'white'
-          }
-          }}/>
-        <Stack.Screen name='Home' component={Home} />
-      </Stack.Navigator>
+      <Tab.Navigator>
+        <Tab.Screen name="Login"
+          component={Login} />
+        <Tab.Screen name="SignUp"
+          component={SignUp} />
+        <Tab.Screen name="Others"
+          component={Other} />
+      </Tab.Navigator>
     </NavigationContainer>
-  );
-}
-
-const Headers =()=>{
-  return(
-    <TextInput placeholder='Name' style={{color:'white',backgroundColor:'blue'}}/>
   )
+};
+
+const Login = () => {
+  return <View>
+    <Text>Login</Text>
+  </View>
+}
+const SignUp = () => {
+  return <View>
+    <Text>SignUp</Text>
+  </View>
+}
+const Other = () => {
+  return <View>
+    <Text>Others</Text>
+  </View>
 }
 export default App;
+
