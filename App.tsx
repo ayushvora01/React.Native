@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, { useEffect } from 'react';
 import { PropsWithChildren, useState } from 'react';
 import {
@@ -27,10 +20,6 @@ import {
   TextInput,
 } from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import WebView, { } from 'react-native-webview';
-
 import {
   Colors,
   DebugInstructions,
@@ -38,56 +27,52 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import {Login} from'./components/Login';
-import {Home} from './components/Home';
+import { NavigationContainer } from '@react-navigation/native'
+
 
 type SectionProps = PropsWithChildren<{
   title: string;
-}>;
+}>
 
-const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const btnAction = () =>{
-    console.warn("Button pressed")
+  const [data, setData] = useState([]);
+  const getAPIData = async () => {
+    const url = "https://jsonplaceholder.typicode.com/posts"
+    let result = await fetch(url);
+    result = await result.json();
+    setData(result);
   }
- 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-          headerStyle:{
-            backgroundColor:'yellow',
-          },
-          headerTitleStyle:{
-            fontSize:30,
-            color:'black'
-          }
-          }}>
-        <Stack.Screen name='Login' component={Login}
-          options={{
-            headerTitle:()=><Button title='Left' onPress={btnAction}/>,
-            headerRight:()=><Headers/>,
-            title:'Login Screen',
-            // headerTitleAlign:'center',
-          headerStyle:{
-            backgroundColor:'black',
-          },
-          headerTitleStyle:{
-            fontSize:30,
-            color:'white'
-          }
-          }}/>
-        <Stack.Screen name='Home' component={Home} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
 
-const Headers =()=>{
-  return(
-    <TextInput placeholder='Name' style={{color:'white',backgroundColor:'blue'}}/>
+  useEffect(() => {
+    getAPIData()
+  }, [])
+
+
+  return (
+    <ScrollView>
+      <Text style={{
+        fontSize: 30,
+        color: 'black',
+        backgroundColor: 'yellow',
+        fontWeight: 'bold',
+        textAlign: 'center'
+      }}>API Call</Text>
+      {
+        data.length ?
+          data.map((item) =>
+            <View style={{padding:20, borderBottomColor:'red', borderBottomWidth:7}}>
+              <Text style={{fontSize:20,color:'black',backgroundColor:'grey'}}>Id: {item.id}</Text>
+              <Text style={{fontSize:20,color:'black'}}>Title: {item.title}</Text>
+              <Text style={{fontSize:20,color:'black'}}>Body: {item.body}</Text>
+            </View>
+          ) : null
+      }
+    </ScrollView>
   )
-}
+};
+
 export default App;
+
