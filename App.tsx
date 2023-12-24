@@ -38,39 +38,59 @@ type SectionProps = PropsWithChildren<{
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const [data, setData] = useState([]);
+  const[data,setData]=useState([]);
+
   const getAPIData = async () => {
-    const url = "https://jsonplaceholder.typicode.com/posts"
+    const url = "https://jsonplaceholder.typicode.com/posts";
     let result = await fetch(url);
     result = await result.json();
     setData(result);
   }
-
-  useEffect(() => {
-    getAPIData()
-  }, [])
-
+  useEffect(()=>{
+    getAPIData();
+  },[])
 
   return (
-    <ScrollView>
+    <View>
       <Text style={{
         fontSize: 30,
         color: 'black',
         backgroundColor: 'yellow',
         fontWeight: 'bold',
         textAlign: 'center'
-      }}>API Call</Text>
+      }}>FlatList API Call</Text>
       {
-        data.length ?
-          data.map((item) =>
-            <View style={{padding:20, borderBottomColor:'red', borderBottomWidth:7}}>
-              <Text style={{fontSize:20,color:'black',backgroundColor:'grey'}}>Id: {item.id}</Text>
-              <Text style={{fontSize:20,color:'black'}}>Title: {item.title}</Text>
-              <Text style={{fontSize:20,color:'black'}}>Body: {item.body}</Text>
-            </View>
-          ) : null
+        data.length ? 
+        <FlatList 
+        data={data}
+        renderItem={({item})=>
+          <View>
+             <Text style={{
+        fontSize: 20,
+        color: 'black',
+        backgroundColor: 'grey',
+        fontWeight: 'bold',
+        textAlign: 'center'
+      }}>{item.id}</Text>
+      <Text style={{
+        fontSize: 18,
+        color: 'black',
+        backgroundColor: 'cyan',
+        fontWeight: 'bold',
+        textAlign: 'center'
+      }}>{item.title}</Text>
+      <Text style={{
+        fontSize: 18,
+        color: 'black',
+        backgroundColor: 'lightgreen',
+        fontWeight: 'bold',
+        textAlign: 'center'
+      }}>{item.body}</Text>
+          </View>
+        }
+        />:null
       }
-    </ScrollView>
+    </View>
   )
 };
 
